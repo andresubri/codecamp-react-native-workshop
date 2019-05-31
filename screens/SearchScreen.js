@@ -9,7 +9,7 @@ import ResultItem from "../components/ResultItem";
 export default class SearchScreen extends React.Component {
   constructor(props) {
     super(props);
-    this.debouncedSearch = debounce(this.searchBook, 800);
+    this.debouncedSearch = debounce(this.searchBook, 600);
   }
   static navigationOptions = {
     header: null
@@ -20,7 +20,7 @@ export default class SearchScreen extends React.Component {
     results: []
   };
 
-  
+  // TODO: Fix debounce
   searchBook = async (query, index = 20) => {
     const search = await Book.search(query, index);
     if (search && search.ok) {
@@ -31,11 +31,11 @@ export default class SearchScreen extends React.Component {
       return;
     }
   };
-  
+
   onChangeText = async (query, index = 20) => {
     if (!query.length) {
       this.setState({ query, results: [] });
-      this.debouncedSearch.flush();
+      this.debouncedSearch.cancel();
       return;
     }
     this.debouncedSearch(query, index);
@@ -47,8 +47,10 @@ export default class SearchScreen extends React.Component {
     return (
       <Container>
         <SearchBar
+          placeholder="Search"
           onChangeText={this.onChangeText}
           value={query}
+          onBlur={this.debouncedSearch.flush}
         />
         <Content>
           <FlatList
@@ -61,10 +63,3 @@ export default class SearchScreen extends React.Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  welcomeImage: {
-    width: 100,
-    height: 80
-  }
-});
