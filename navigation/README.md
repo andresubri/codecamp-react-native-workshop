@@ -14,3 +14,4 @@ Steps
     10. Implement search
     11. Debounce search
     12. Animate content
+    13. Add detail

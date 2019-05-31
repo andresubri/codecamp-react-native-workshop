@@ -5,19 +5,31 @@ import PropTypes from "prop-types";
 import Book from "../models/Book";
 import AnimatedImage from "./AnimatedImage";
 
-const NO_COVER_PLACEHOLDER = require('../assets/images/no-cover.jpg');
+const NO_COVER_PLACEHOLDER = require("../assets/images/no-cover.jpg");
 
 export default class ResultItem extends Component {
   static propTypes = {
-    book: PropTypes.instanceOf(Book).isRequired
+    book: PropTypes.instanceOf(Book).isRequired,
+    // onPress: PropTypes.func,
+  };
+
+  static defaultProps = {
+    onPress: () => {}
   };
 
   render() {
-    const { book } = this.props;
+    const { book, onPress } = this.props;
     return (
-      <TouchableHighlight thumbnail style={styles.container}>
+      <TouchableHighlight
+        onPress={onPress}
+        thumbnail
+        style={styles.container}
+      >
         <View style={styles.container}>
-          <AnimatedImage style={styles.cover} source={book.cover ? { uri: book.cover } : NO_COVER_PLACEHOLDER} />
+          <AnimatedImage
+            style={styles.cover}
+            source={book.cover ? { uri: book.cover } : NO_COVER_PLACEHOLDER}
+          />
           <View style={styles.textContainer}>
             <Text numberOfLines={2}>{book.title}</Text>
             <Text note numberOfLines={2}>
@@ -37,9 +49,9 @@ const styles = StyleSheet.create({
     height: 120
   },
   textContainer: {
-    justifyContent: 'center',
-    width: '85%',
-    padding: 10,
+    justifyContent: "center",
+    width: "85%",
+    padding: 10
   },
   cover: {
     width: 60,

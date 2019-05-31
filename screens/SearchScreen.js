@@ -76,6 +76,7 @@ export default class SearchScreen extends React.Component {
 
   render() {
     const { query, results, opacity } = this.state;
+    const { navigation } = this.props;
     return (
       <Container>
         <SearchBar
@@ -89,7 +90,12 @@ export default class SearchScreen extends React.Component {
             style={{ opacity }}
             keyExtractor={item => item.id}
             data={results}
-            renderItem={({ item }) => <ResultItem book={item} />}
+            renderItem={({ item }) => (
+              <ResultItem
+                onPress={() => navigation.navigate("Book", { preview: item })}
+                book={item}
+              />
+            )}
           />
         </Content>
       </Container>

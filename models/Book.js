@@ -9,11 +9,15 @@ class Book {
    * @param {Array} authors Authors
    * @param {string} cover Cover
    */
-  constructor(id, title, authors, cover) {
+  constructor(id, title, authors, cover, description, publishedDate, ratingsCount, pageCount) {
     this.id = id || "";
     this.title = title || "";
     this.authors = Book.getAuthors(authors);
     this.cover = cover || "";
+    this.description = description || "";
+    this.publishedDate = publishedDate || "";
+    this.ratingsCount = ratingsCount || "";
+    this.pageCount = pageCount || "";
   }
 
   static save = async book => await Storage.save(key, book);
@@ -28,7 +32,7 @@ class Book {
     await GoogleBooks.search({ params: { query, index } });
 
   static get = async query =>
-    await GoogleBooks.search({ params: { query } });
+    await GoogleBooks.get({ params: { query } });
 
   static getAuthors = authors => {
     if (!authors) return "";
@@ -64,6 +68,10 @@ class Book {
       volumeInfo.title,
       authors || volumeInfo.authors,
       Book.getMaxResCover(volumeInfo.imageLinks || {}),
+      volumeInfo.description,
+      volumeInfo.publishedDate,
+      volumeInfo.ratingsCount,
+      volumeInfo.pageCount,
     );
   };
   
