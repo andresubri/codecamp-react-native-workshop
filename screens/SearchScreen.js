@@ -9,7 +9,7 @@ import ResultItem from "../components/ResultItem";
 export default class SearchScreen extends React.Component {
   constructor(props) {
     super(props);
-    this.debouncedSearch = debounce(this.searchBook, 500);
+    this.debouncedSearch = debounce(this.searchBook, 800);
   }
   static navigationOptions = {
     header: null
@@ -27,14 +27,15 @@ export default class SearchScreen extends React.Component {
       const results = search.body.items.map(item =>
         Book.parseSearchResult(item)
       );
-      this.setState({ query, results });
+      this.setState({ results });
       return;
     }
   };
   
   onChangeText = async (query, index = 20) => {
     if (!query.length) {
-      this.setState({ query });
+      this.setState({ query, results: [] });
+      this.debouncedSearch.flush();
       return;
     }
     this.debouncedSearch(query, index);
