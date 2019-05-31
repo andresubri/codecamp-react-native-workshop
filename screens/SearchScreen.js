@@ -9,7 +9,7 @@ import ResultItem from "../components/ResultItem";
 export default class SearchScreen extends React.Component {
   constructor(props) {
     super(props);
-    this.debouncedSearch = debounce(this.searchBook, 2000);
+    this.debouncedSearch = debounce(this.searchBook, 500);
   }
   static navigationOptions = {
     header: null
