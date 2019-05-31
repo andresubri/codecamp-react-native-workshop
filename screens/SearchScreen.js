@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, FlatList } from "react-native";
+import { Animated } from "react-native";
 import { Container, Content } from "native-base";
 import { debounce } from "lodash";
 import SearchBar from "../components/SeachBar";
@@ -7,43 +7,75 @@ import Book from "../models/Book";
 import ResultItem from "../components/ResultItem";
 
 export default class SearchScreen extends React.Component {
-  constructor(props) {
-    super(props);
-    this.debouncedSearch = debounce(this.searchBook, 600);
-  }
   static navigationOptions = {
     header: null
   };
 
-  state = {
-    query: "",
-    results: []
+  constructor(props) {
+    super(props);
+    this.debouncedSearch = debounce(this.searchBook, 200);
+    this.state = {
+      query: "",
+      results: [],
+      opacity: new Animated.Value(0)
+    };
+  }
+
+  showResults = () => {
+    const { opacity } = this.state;
+    Animated.timing(opacity, {
+      toValue: 1,
+      duration: 200,
+      useNativeDriver: true
+    }).start();
   };
 
-  // TODO: Fix debounce
+  hideResults = () => {
+    const { opacity } = this.state;
+    Animated.timing(opacity, {
+      toValue: 0,
+      duration: 200,
+      useNativeDriver: true
+    }).start(() => this.setState({ results: [] }));
+  };
+
   searchBook = async (query, index = 20) => {
+    // Perform Search
     const search = await Book.search(query, index);
+
+    // Set results
     if (search && search.ok) {
       const results = search.body.items.map(item =>
         Book.parseSearchResult(item)
       );
-      this.setState({ results });
+
+      this.setState({ results }, this.showResults);
+
       return;
     }
   };
 
   onChangeText = async (query, index = 20) => {
+    this.hideResults();
     if (!query.length) {
-      this.setState({ query, results: [] });
+      // Update input value
+      this.setState({ query });
+
+      // Cancel search
       this.debouncedSearch.cancel();
+
       return;
     }
+
+    // Do search
     this.debouncedSearch(query, index);
+
+    // Update input value
     this.setState({ query });
   };
 
   render() {
-    const { query, results } = this.state;
+    const { query, results, opacity } = this.state;
     return (
       <Container>
         <SearchBar
@@ -53,7 +85,8 @@ export default class SearchScreen extends React.Component {
           onBlur={this.debouncedSearch.flush}
         />
         <Content>
-          <FlatList
+          <Animated.FlatList
+            style={{ opacity }}
             keyExtractor={item => item.id}
             data={results}
             renderItem={({ item }) => <ResultItem book={item} />}

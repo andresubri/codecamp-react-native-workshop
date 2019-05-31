@@ -13,3 +13,4 @@ Steps
     9.  Add ListItem
     10. Implement search
     11. Debounce search
+    12. Animate content

@@ -1,8 +1,11 @@
 import React, { Component } from "react";
 import { StyleSheet, TouchableHighlight, View } from "react-native";
-import { ListItem, Thumbnail, Text, Left, Body, Right } from "native-base";
+import { Text } from "native-base";
 import PropTypes from "prop-types";
 import Book from "../models/Book";
+import AnimatedImage from "./AnimatedImage";
+
+const NO_COVER_PLACEHOLDER = require('../assets/images/no-cover.jpg');
 
 export default class ResultItem extends Component {
   static propTypes = {
@@ -14,7 +17,7 @@ export default class ResultItem extends Component {
     return (
       <TouchableHighlight thumbnail style={styles.container}>
         <View style={styles.container}>
-          <Thumbnail style={styles.cover} square source={{ uri: book.cover }} />
+          <AnimatedImage style={styles.cover} source={book.cover ? { uri: book.cover } : NO_COVER_PLACEHOLDER} />
           <View style={styles.textContainer}>
             <Text numberOfLines={2}>{book.title}</Text>
             <Text note numberOfLines={2}>
