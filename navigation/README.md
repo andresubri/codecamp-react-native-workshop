@@ -7,3 +7,8 @@ Steps
     3.  Install nativebase
     4.  Rename HomeScreen to SearchScreen, update navigation
     5.  Update SearchScreen
+    6.  Setup providers
+    7.  Setup API 
+    8.  Setup Models
+    9.  Add ListItem
+    10. Implement search
