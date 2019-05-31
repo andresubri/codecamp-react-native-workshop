@@ -1,11 +1,16 @@
 import React from "react";
 import { StyleSheet, FlatList } from "react-native";
 import { Container, Content } from "native-base";
+import { debounce } from "lodash";
 import SearchBar from "../components/SeachBar";
 import Book from "../models/Book";
 import ResultItem from "../components/ResultItem";
 
 export default class SearchScreen extends React.Component {
+  constructor(props) {
+    super(props);
+    this.debouncedSearch = debounce(this.searchBook, 2000);
+  }
   static navigationOptions = {
     header: null
   };
@@ -15,10 +20,25 @@ export default class SearchScreen extends React.Component {
     results: []
   };
 
-  searchBook = async (query, index) => {
+  
+  searchBook = async (query, index = 20) => {
     const search = await Book.search(query, index);
-    const results = search.body.items.map(item => Book.parseSearchResult(item));
-    this.setState({ query, results: [...this.state.results, ...results] });
+    if (search && search.ok) {
+      const results = search.body.items.map(item =>
+        Book.parseSearchResult(item)
+      );
+      this.setState({ query, results });
+      return;
+    }
+  };
+  
+  onChangeText = async (query, index = 20) => {
+    if (!query.length) {
+      this.setState({ query });
+      return;
+    }
+    this.debouncedSearch(query, index);
+    this.setState({ query });
   };
 
   render() {
@@ -26,7 +46,7 @@ export default class SearchScreen extends React.Component {
     return (
       <Container>
         <SearchBar
-          onChangeText={query => this.searchBook(query, 20)}
+          onChangeText={this.onChangeText}
           value={query}
         />
         <Content>

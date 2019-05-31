@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Platform } from "react-native";
-import { Container, Header, Item, Input, Icon } from "native-base";
+import { Header, Item, Input, Icon } from "native-base";
 
 export default class SearchBar extends Component {
   render() {
