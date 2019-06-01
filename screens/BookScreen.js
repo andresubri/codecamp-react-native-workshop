@@ -17,6 +17,7 @@ export default class BookScreen extends React.Component {
     this.state = {
       book: new Book(),
       preview,
+      exist: false,
       opacity: new Animated.Value(0)
     };
   }
@@ -48,34 +49,49 @@ export default class BookScreen extends React.Component {
     // Get book
     const request = await Book.get(preview.id);
 
-    // console.log(book);
     // Set results
     if (request && request.ok) {
       const book = Book.parseBook(request.body);
+      
+      const exist = await Book.exist(book);
 
-      this.setState({ book });
+      this.setState({ book, exist });
       return;
     }
     return;
   };
 
+  addOrRemoveFavorite = () => {
+    const { book, exist } = this.state;
+    
+    if (exist) { 
+      Book.remove(book);
+      this.setState({ exist: !exist })
+      return;
+    } 
+
+    Book.save(book);
+    
+    this.setState({ exist: !exist })
+  }
+
   render() {
-    const { book, preview } = this.state;
+    const { book, exist, preview } = this.state;
     const { navigation } = this.props;
 
     return (
       <Container>
         <Header
           title={book.title}
-          rightAction={() => {}}
-          rightIcon="heart"
+          rightAction={this.addOrRemoveFavorite}
+          rightIcon={exist ? "ios-heart" : "ios-heart-empty"}
           leftAction={() => navigation.goBack()}
           leftIcon="arrow-back"
         />
         <View style={styles.container}>
           <AnimatedImage
             style={styles.cover}
-            source={book.cover ? { uri: book.cover } : NO_COVER_PLACEHOLDER}
+            source={preview.cover ? { uri: preview.cover } : NO_COVER_PLACEHOLDER}
           />
           <View style={styles.textContainer}>
             <Text numberOfLines={2}>{preview.title}</Text>

@@ -1,7 +1,6 @@
-import { Storage } from "../providers";
+import Storage from "../providers/Storage";
 import GoogleBooks from "../api/GoogleBooks";
 
-const key = "BOOK";
 class Book {
   /**
    * @param {string} id Id
@@ -20,13 +19,18 @@ class Book {
     this.pageCount = pageCount || "";
   }
 
-  static save = async book => await Storage.save(key, book);
+  static save = async book => await Storage.save(book.id, book);
 
-  static load = async () => await Storage.save(key);
+  static load = async book => await Storage.load(book.id);
+  
+  static exist = async book => await Storage.exist(book.id);
 
-  static loadAll = async () => await Storage.save(key);
+  static loadAll = async () => {
+    const ids = await Storage.loadAll();
+    return ids.map(id => JSON.parse(id[1]));
+  };
 
-  static remove = async book => await Storage.save(key, book);
+  static remove = book => Storage.remove(book.id);
 
   static search = async (query, index) =>
     await GoogleBooks.search({ params: { query, index } });

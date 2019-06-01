@@ -5,7 +5,7 @@ import { createStackNavigator, createBottomTabNavigator } from 'react-navigation
 import TabBarIcon from '../components/TabBarIcon';
 import SearchScreen from '../screens/SearchScreen';
 import BookScreen from '../screens/BookScreen';
-import LinksScreen from '../screens/LinksScreen';
+import BookshelfScreen from '../screens/BookshelfScreen';
 
 const SearchStack = createStackNavigator({
   Search: SearchScreen,
@@ -29,7 +29,7 @@ SearchStack.navigationOptions = {
 };
 
 const BooshelfStack = createStackNavigator({
-  Booshelf: LinksScreen,
+  Booshelf: BookshelfScreen,
   Book: BookScreen,
 }, {
   headerMode: 'none'

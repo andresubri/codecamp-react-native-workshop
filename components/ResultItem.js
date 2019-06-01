@@ -1,22 +1,11 @@
 import React, { Component } from "react";
 import { StyleSheet, TouchableHighlight, View } from "react-native";
 import { Text } from "native-base";
-import PropTypes from "prop-types";
-import Book from "../models/Book";
 import AnimatedImage from "./AnimatedImage";
 
 const NO_COVER_PLACEHOLDER = require("../assets/images/no-cover.jpg");
 
 export default class ResultItem extends Component {
-  static propTypes = {
-    book: PropTypes.instanceOf(Book).isRequired,
-    // onPress: PropTypes.func,
-  };
-
-  static defaultProps = {
-    onPress: () => {}
-  };
-
   render() {
     const { book, onPress } = this.props;
     return (
