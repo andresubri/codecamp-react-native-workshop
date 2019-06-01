@@ -82,6 +82,10 @@ class Book {
       volumeInfo.title,
       authors || volumeInfo.authors,
       Book.getPreviewCover(volumeInfo.imageLinks || {}),
+      volumeInfo.description,
+      volumeInfo.publishedDate,
+      volumeInfo.ratingsCount,
+      volumeInfo.pageCount,
     );
   };
 

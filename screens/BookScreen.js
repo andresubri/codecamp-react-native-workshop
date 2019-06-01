@@ -3,6 +3,7 @@ import { Animated, View, StyleSheet } from "react-native";
 import { Container, Content, Text } from "native-base";
 import Book from "../models/Book";
 import AnimatedImage from "../components/AnimatedImage";
+import { Rating } from "react-native-ratings";
 
 const NO_COVER_PLACEHOLDER = require("../assets/images/no-cover.jpg");
 
@@ -13,7 +14,7 @@ export default class BookScreen extends React.Component {
 
   constructor(props) {
     super(props);
-    
+
     const preview = props.navigation.getParam("preview");
 
     this.state = {
@@ -77,10 +78,19 @@ export default class BookScreen extends React.Component {
                 <Text note numberOfLines={2}>
                   {preview.authors}
                 </Text>
+                <Rating
+                  ratingCount={5}
+                  imageSize={20}
+                  style={{ alignSelf: 'flex-start', paddingVertical: 10 }}
+                  readonly
+                  startingValue={parseInt(book.ratingsCount)}
+                />
               </View>
             </View>
+            <Text style={styles.content}>
+              {book.description}
+            </Text>
           </View>
-          <Text numberOfLines={5}>{book.description}</Text>
         </Content>
       </Container>
     );
@@ -92,7 +102,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     padding: 10,
     marginTop: 20,
-    height: 320
+    height: 200
   },
   textContainer: {
     justifyContent: "center",
@@ -102,5 +112,10 @@ const styles = StyleSheet.create({
   cover: {
     width: 130,
     height: 180
+  },
+  content: {
+    flex: 1,
+    alignSelf: "flex-start",
+    padding: 20
   }
 });
