@@ -78,7 +78,7 @@ export default class BookScreen extends React.Component {
   render() {
     const { book, exist, preview } = this.state;
     const { navigation } = this.props;
-
+    console.log(this.props);
     return (
       <Container>
         <Header

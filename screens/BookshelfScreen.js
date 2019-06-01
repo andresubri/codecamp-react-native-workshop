@@ -18,6 +18,8 @@ export default class BookshelfScreen extends React.Component {
 
   render() {
     const { books } = this.state;
+    const { navigation } = this.props;
+    
     return (
       <Container>
         <NavigationEvents onWillFocus={() => this.getBooks()} />
