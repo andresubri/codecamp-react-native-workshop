@@ -1,5 +1,5 @@
 import React from "react";
-import { Animated, View, StyleSheet } from "react-native";
+import { Animated, View, StyleSheet, WebView } from "react-native";
 import { Container, Content, Text } from "native-base";
 import Book from "../models/Book";
 import AnimatedImage from "../components/AnimatedImage";
@@ -66,32 +66,30 @@ export default class BookScreen extends React.Component {
     const { book, preview } = this.state;
     return (
       <Container>
-        <Content>
-          <View>
-            <View style={styles.container}>
-              <AnimatedImage
-                style={styles.cover}
-                source={book.cover ? { uri: book.cover } : NO_COVER_PLACEHOLDER}
-              />
-              <View style={styles.textContainer}>
-                <Text numberOfLines={2}>{preview.title}</Text>
-                <Text note numberOfLines={2}>
-                  {preview.authors}
-                </Text>
-                <Rating
-                  ratingCount={5}
-                  imageSize={20}
-                  style={{ alignSelf: 'flex-start', paddingVertical: 10 }}
-                  readonly
-                  startingValue={parseInt(book.ratingsCount)}
-                />
-              </View>
-            </View>
-            <Text style={styles.content}>
-              {book.description}
+        <View style={styles.container}>
+          <AnimatedImage
+            style={styles.cover}
+            source={book.cover ? { uri: book.cover } : NO_COVER_PLACEHOLDER}
+          />
+          <View style={styles.textContainer}>
+            <Text numberOfLines={2}>{preview.title}</Text>
+            <Text note numberOfLines={2}>
+              {preview.authors}
             </Text>
+            <Rating
+              ratingCount={5}
+              imageSize={20}
+              style={{ alignSelf: "flex-start", paddingVertical: 10 }}
+              readonly
+              startingValue={parseInt(book.ratingsCount)}
+            />
           </View>
-        </Content>
+        </View>
+        <WebView
+          style={styles.content}
+          source={{ html: book.description }}
+          scalesPageToFit={false}
+        />
       </Container>
     );
   }
@@ -114,8 +112,8 @@ const styles = StyleSheet.create({
     height: 180
   },
   content: {
-    flex: 1,
-    alignSelf: "flex-start",
-    padding: 20
+    alignSelf: "center",
+    padding: 20,
+    width: "95%"
   }
 });
