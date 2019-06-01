@@ -10,6 +10,8 @@ import LinksScreen from '../screens/LinksScreen';
 const SearchStack = createStackNavigator({
   Search: SearchScreen,
   Book: BookScreen,
+}, {
+  headerMode: 'none'
 });
 
 SearchStack.navigationOptions = {
@@ -29,6 +31,8 @@ SearchStack.navigationOptions = {
 const BooshelfStack = createStackNavigator({
   Booshelf: LinksScreen,
   Book: BookScreen,
+}, {
+  headerMode: 'none'
 });
 
 BooshelfStack.navigationOptions = {

@@ -4,14 +4,11 @@ import { Container, Content, Text } from "native-base";
 import Book from "../models/Book";
 import AnimatedImage from "../components/AnimatedImage";
 import { Rating } from "react-native-ratings";
+import Header from "../components/Header";
 
 const NO_COVER_PLACEHOLDER = require("../assets/images/no-cover.jpg");
 
 export default class BookScreen extends React.Component {
-  // static navigationOptions = {
-  //   header: null
-  // };
-
   constructor(props) {
     super(props);
 
@@ -64,8 +61,17 @@ export default class BookScreen extends React.Component {
 
   render() {
     const { book, preview } = this.state;
+    const { navigation } = this.props;
+
     return (
       <Container>
+        <Header
+          title={book.title}
+          rightAction={() => {}}
+          rightIcon="heart"
+          leftAction={() => navigation.goBack()}
+          leftIcon="arrow-back"
+        />
         <View style={styles.container}>
           <AnimatedImage
             style={styles.cover}
