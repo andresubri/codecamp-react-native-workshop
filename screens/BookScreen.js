@@ -1,6 +1,6 @@
 import React from "react";
-import { Animated, View, StyleSheet, WebView } from "react-native";
-import { Container, Content, Text } from "native-base";
+import { Animated, View, StyleSheet, WebView, Text } from "react-native";
+import { Container } from "native-base";
 import Book from "../models/Book";
 import AnimatedImage from "../components/AnimatedImage";
 import { Rating } from "react-native-ratings";

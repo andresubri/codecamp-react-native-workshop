@@ -23,6 +23,7 @@ export default class ResultItem extends Component {
       <TouchableHighlight
         onPress={onPress}
         thumbnail
+        underlayColor='transparent'
         style={styles.container}
       >
         <View style={styles.container}>
