@@ -3,58 +3,49 @@ import { Platform } from 'react-native';
 import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
 
 import TabBarIcon from '../components/TabBarIcon';
-import HomeScreen from '../screens/HomeScreen';
-import LinksScreen from '../screens/LinksScreen';
-import SettingsScreen from '../screens/SettingsScreen';
+import SearchScreen from '../screens/SearchScreen';
+import BookScreen from '../screens/BookScreen';
+import BookshelfScreen from '../screens/BookshelfScreen';
 
-const HomeStack = createStackNavigator({
-  Home: HomeScreen,
+const SearchStack = createStackNavigator({
+  Search: SearchScreen,
+  Book: BookScreen,
+}, {
+  headerMode: 'none'
 });
 
-HomeStack.navigationOptions = {
-  tabBarLabel: 'Home',
+SearchStack.navigationOptions = {
+  tabBarLabel: 'Search',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
       name={
         Platform.OS === 'ios'
-          ? `ios-information-circle${focused ? '' : '-outline'}`
-          : 'md-information-circle'
+          ? `ios-search`
+          : 'md-search'
       }
     />
   ),
 };
 
-const LinksStack = createStackNavigator({
-  Links: LinksScreen,
+const BooshelfStack = createStackNavigator({
+  Booshelf: BookshelfScreen,
+  Book: BookScreen,
+}, {
+  headerMode: 'none'
 });
 
-LinksStack.navigationOptions = {
-  tabBarLabel: 'Links',
+BooshelfStack.navigationOptions = {
+  tabBarLabel: 'Bookshelf',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
-      name={Platform.OS === 'ios' ? 'ios-link' : 'md-link'}
-    />
-  ),
-};
-
-const SettingsStack = createStackNavigator({
-  Settings: SettingsScreen,
-});
-
-SettingsStack.navigationOptions = {
-  tabBarLabel: 'Settings',
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon
-      focused={focused}
-      name={Platform.OS === 'ios' ? 'ios-options' : 'md-options'}
+      name={Platform.OS === 'ios' ? 'ios-book' : 'md-book'}
     />
   ),
 };
 
 export default createBottomTabNavigator({
-  HomeStack,
-  LinksStack,
-  SettingsStack,
+  SearchStack,
+  BooshelfStack,
 });
